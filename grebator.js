@@ -1,6 +1,10 @@
+const pg = require("pg");
+const fs = require("fs");
 
 const vticnica_ip = "http://192.168.1.42/rpc/Shelly.GetStatus";
 const api_link = 'https://api-drzavno-test.scv.si/api/tarifa';
+
+
 
 class zdruzeni_podatki {
     constructor(vticnica_json, tarifa_json) {
@@ -14,6 +18,7 @@ class zdruzeni_podatki {
         this.tarifa = tarifa_json.tarifa;
         this.valuta = tarifa_json.valuta;
         this.casovni_blok = tarifa_json.casovni_blok;
+
     }
     izpisi() {
         console.log("-------------------------------------------------------------------------------------------");
@@ -44,6 +49,13 @@ async function dobi_json_iz_povezave(povezava) {
         console.error("Napaka pri pridobivanju podatkov:", error);
     }
 }
+
+fs.readFile('podatkovna_baza.json', function (napaka, vsebina) {
+    var nastavitve = JSON.parse(vsebina);
+    const pg_odjemalec = new pg.Client(nastavitve);
+    pg_odjemalec.connect().then(() => console.log("ok!"));
+});
+
 (async () => {
     const vticnica_json = await dobi_json_iz_povezave(vticnica_ip);
     const tarifa_json = await dobi_json_iz_povezave(api_link);

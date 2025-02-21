@@ -1,0 +1,7 @@
+{
+    "user": "vticnica_up",
+    "host": "localhost",
+    "database": "vticnica",
+    "password": "vticnica-123",
+    "port": 5431
+}
