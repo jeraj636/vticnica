@@ -14,7 +14,7 @@ class zdruzeni_podatki {
         this.frekvenca = vticnica_json['switch:0'].freq;
         this.tok = vticnica_json['switch:0'].current;
         this.moc = vticnica_json['switch:0'].apower;
-        this.casovni_zig = Date.now();
+        this.casovni_zig = new Date().toISOString();
         this.tarifa = tarifa_json.tarifa;
         this.valuta = tarifa_json.valuta;
         this.casovni_blok = tarifa_json.casovni_blok;
@@ -35,6 +35,24 @@ class zdruzeni_podatki {
             this.casovni_blok.toString().padStart(12));
         console.log("-------------------------------------------------------------------------------------------");
     }
+    async vpisi_v_pb(odjemalec) {
+        const poizvedba = `
+        INSERT INTO stanje_vticnice (stanje, napetost, frekvenca, tok, moc, casovni_zig, tarifa, valuta, casovni_blok)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+        const vrednosti = [
+            this.stanje,
+            this.napetost,
+            this.frekvenca,
+            this.tok,
+            this.moc,
+            this.casovni_zig,
+            this.tarifa,
+            this.valuta,
+            this.casovni_blok
+        ];
+
+        const rezultat = await odjemalec.query(poizvedba, vrednosti);
+    }
 }
 
 async function dobi_json_iz_povezave(povezava) {
@@ -50,15 +68,19 @@ async function dobi_json_iz_povezave(povezava) {
     }
 }
 
-fs.readFile('podatkovna_baza.json', function (napaka, vsebina) {
-    var nastavitve = JSON.parse(vsebina);
-    const pg_odjemalec = new pg.Client(nastavitve);
-    pg_odjemalec.connect().then(() => console.log("ok!"));
+const pg_odjemalec = new pg.Client({
+    "user": "vticnica_up",
+    "password": "vticnica-123",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "vticnica",
 });
+pg_odjemalec.connect().then(() => console.log("Povezava je uspela!")).catch(err => { console.error("Povezava ni uspela", err); process.exit(); });
 
 (async () => {
     const vticnica_json = await dobi_json_iz_povezave(vticnica_ip);
     const tarifa_json = await dobi_json_iz_povezave(api_link);
     const podatki = new zdruzeni_podatki(vticnica_json, tarifa_json);
     podatki.izpisi();
+    podatki.vpisi_v_pb(pg_odjemalec);
 })();
