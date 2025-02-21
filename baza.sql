@@ -12,3 +12,5 @@ CREATE TABLE stanje_vticnice(
     valuta NUMERIC(10,5) NOT NULL,
     casovni_blok INT NOT NULL
 );
+CREATE USER vticnica_up WITH PASSWORD 'vticnica-123';
+GRANT ALL PRIVILEGES ON DATABASE vticnica TO vticnica_up;
