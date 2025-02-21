@@ -1,5 +1,7 @@
+
 const vticnica_ip = "http://192.168.1.42/rpc/Shelly.GetStatus";
 const api_link = 'https://api-drzavno-test.scv.si/api/tarifa';
+
 class zdruzeni_podatki {
     constructor(vticnica_json, tarifa_json) {
 
@@ -14,7 +16,19 @@ class zdruzeni_podatki {
         this.casovni_blok = tarifa_json.casovni_blok;
     }
     izpisi() {
-        console.log(this.stanje + " " + this.napetost);
+        console.log("-------------------------------------------------------------------------------------------");
+        console.log("stanje | napetost | frekvenca | tok | moc |  casovni_zig   | tarifa | valuta | casovni_blok");
+        console.log("-------+----------+-----------+-----+-----+----------------+--------+--------+-------------");
+        console.log(this.stanje.toString().padStart(6) + " | " +
+            this.napetost.toString().padStart(8) + " | " +
+            this.frekvenca.toString().padStart(9) + " | " +
+            this.tok.toString().padStart(3) + " | " +
+            this.moc.toString().padStart(3) + " | " +
+            this.casovni_zig.toString().padStart(14) + " | " +
+            this.tarifa.toString().padStart(6) + " | " +
+            this.valuta.toString().padStart(6) + " | " +
+            this.casovni_blok.toString().padStart(12));
+        console.log("-------------------------------------------------------------------------------------------");
     }
 }
 
