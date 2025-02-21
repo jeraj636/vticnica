@@ -9,7 +9,7 @@ CREATE TABLE stanje_vticnice(
     moc NUMERIC(10,5) NOT NULL,
     casovni_zig TIMESTAMP NOT NULL,
     tarifa NUMERIC(10,5) NOT NULL,
-    valuta NUMERIC(10,5) NOT NULL,
+    valuta VARCHAR(40) NOT NULL,
     casovni_blok INT NOT NULL
 );
 CREATE USER vticnica_up WITH PASSWORD 'vticnica-123';
