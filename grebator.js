@@ -1,6 +1,7 @@
 const pg = require("pg");
 const fs = require("fs");
-
+const { findSourceMap } = require("module");
+let debug = false;
 const vticnica_ip = "http://192.168.1.42/rpc/Shelly.GetStatus";
 const api_link = 'https://api-drzavno-test.scv.si/api/tarifa';
 
@@ -21,9 +22,9 @@ class zdruzeni_podatki {
 
     }
     izpisi() {
-        console.log("-------------------------------------------------------------------------------------------");
-        console.log("stanje | napetost | frekvenca | tok | moc |  casovni_zig   | tarifa | valuta | casovni_blok");
-        console.log("-------+----------+-----------+-----+-----+----------------+--------+--------+-------------");
+        console.log("-----------------------------------------------------------------------------------------------------");
+        console.log("stanje | napetost | frekvenca | tok | moc |  casovni_zig             | tarifa | valuta | casovni_blok");
+        console.log("-------+----------+-----------+-----+-----+--------------------------+--------+--------+-------------");
         console.log(this.stanje.toString().padStart(6) + " | " +
             this.napetost.toString().padStart(8) + " | " +
             this.frekvenca.toString().padStart(9) + " | " +
@@ -33,7 +34,7 @@ class zdruzeni_podatki {
             this.tarifa.toString().padStart(6) + " | " +
             this.valuta.toString().padStart(6) + " | " +
             this.casovni_blok.toString().padStart(12));
-        console.log("-------------------------------------------------------------------------------------------");
+        console.log("-----------------------------------------------------------------------------------------------------");
     }
     async vpisi_v_pb(odjemalec) {
         const poizvedba = `
@@ -67,20 +68,29 @@ async function dobi_json_iz_povezave(povezava) {
         console.error("Napaka pri pridobivanju podatkov:", error);
     }
 }
+let pg_odjemalec;
+fs.readFile('nastavitve.json', function (err, podatki) {
+    pg_odjemalec = new pg.Client(JSON.parse(podatki));
+    pg_odjemalec.connect();
 
-const pg_odjemalec = new pg.Client({
-    "user": "vticnica_up",
-    "password": "vticnica-123",
-    "host": "127.0.0.1",
-    "port": 5432,
-    "database": "vticnica",
 });
-pg_odjemalec.connect().then(() => console.log("Povezava je uspela!")).catch(err => { console.error("Povezava ni uspela", err); process.exit(); });
+const interval = setInterval(async () => {
+    try {
 
-(async () => {
-    const vticnica_json = await dobi_json_iz_povezave(vticnica_ip);
-    const tarifa_json = await dobi_json_iz_povezave(api_link);
-    const podatki = new zdruzeni_podatki(vticnica_json, tarifa_json);
-    podatki.izpisi();
-    podatki.vpisi_v_pb(pg_odjemalec);
-})();
+        const vticnica_json = await dobi_json_iz_povezave(vticnica_ip);
+        const tarifa_json = await dobi_json_iz_povezave(api_link);
+        const podatki = new zdruzeni_podatki(vticnica_json, tarifa_json);
+        if (debug)
+            podatki.izpisi();
+        await podatki.vpisi_v_pb(pg_odjemalec);
+    } catch (error) {
+        console.error('Napaka:', error);
+        process.exit();
+    }
+
+}, 500);
+process.on('SIGINT', async () => {
+    clearInterval(interval);
+    await pg_odjemalec.end();
+    process.exit();
+});
