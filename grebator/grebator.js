@@ -66,7 +66,7 @@ async function izbrisi_stare_podatke(odjemalec) {
     DELETE FROM stanje_vticnice
     WHERE casovni_zig < NOW() - INTERVAL '24 hours'`;
     try {
-        await odjemalec.query(poizvedba, [danes]);
+        await odjemalec.query(poizvedba);
         console.log(`Brisanje zapisov!`);
     } catch (error) {
         console.error('Napaka:', error);
