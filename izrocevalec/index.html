@@ -8,20 +8,24 @@
 </head>
 
 <body>
-    <h1>API</h1>
-    <h2>Uporaba:</h2>
+    <h1>Dokumentacija API</h1>
+
+    <h2>Uporaba</h2>
     <p>
-        API omogoča dostop do zapisov iz podatkovne baze. Lahko uporabite naslednje poti:
+        API omogoča dostop do zapisov iz podatkovne baze. Na voljo so naslednje poti:
     </p>
 
-    <h3>1. Pridobivanje vseh zapisov:</h3>
+    <h3>1. Pridobivanje vseh zapisov</h3>
     <pre>/api</pre>
-    <p>Ta pot bo vrnila vse zapise iz baze podatkov v formatu JSON.</p>
+    <p>Vrne vse zapise iz baze podatkov v formatu JSON.</p>
 
-    <h3>2. Pridobivanje zapisov po ID-ju:</h3>
+    <h3>2. Pridobivanje zapisov po ID-ju</h3>
     <pre>/api?id=&lt;celo_stevilo&gt;</pre>
-    <p>Ta pot bo vrnila zapise, katerih ID je večji ali enak vrednosti, ki jo posredujete v parametru 'id'.</p>
+    <p>Vrne vse zapise, katerih ID je enak ali večji od posredovane vrednosti.</p>
 
+    <h3>3. Pridobivanje zapisov glede na čas</h3>
+    <pre>/api?t=&lt;število_sekund&gt;</pre>
+    <p>Vrne zapise, ki so bili ustvarjeni v zadnjem določenem številu sekund.</p>
 </body>
 
 </html>
