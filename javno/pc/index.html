@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="izgled.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <h1>
+        Vtičnica
+    </h1>
+    <canvas id="moc" width="1000" height="300"></canvas>
+    <script>
+        const platno_za_graf_moci = document.getElementById('moc').getContext('2d');
+        const graf_moci = new Chart(platno_za_graf_moci, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Moč',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                }, {
+                    label: 'Napetost',
+                    data: [],
+                    borderColor: 'rgb(255, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                }, {
+                    label: 'Tok',
+                    data: [],
+                    borderColor: 'rgb(255, 255, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        function dobi_podatke() {
+
+            fetch('http://localhost/vticnica/izrocevalec/api/?t=10')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Napaka: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {//Tukaj so podatki iz api
+                    let x = [];
+                    let moc = [];
+                    let napetost = [];
+                    let tok = [];
+                    data.forEach(element => {
+                        x.push("");
+                        moc.push(element.moc);
+                        napetost.push(element.napetost);
+                        tok.push(element.tok);
+                    });
+                    graf_moci.data.labels = x;
+                    graf_moci.data.datasets[0].data = moc;
+                    graf_moci.data.datasets[1].data = napetost;
+                    graf_moci.data.datasets[2].data = tok;
+                    graf_moci.update();
+                })
+                .catch(error => {
+                    console.error('Prišlo je do napake:', error);
+                });
+        }
+        dobi_podatke();
+        setInterval(dobi_podatke, 1000);
+
+    </script>
+</body>
+
+</html>
