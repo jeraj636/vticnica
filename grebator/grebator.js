@@ -44,14 +44,13 @@ class zdruzeni_podatki {
     async vpisi_v_pb(odjemalec) {
         const poizvedba = `
         INSERT INTO stanje_vticnice (stanje, napetost, frekvenca, tok, moc, casovni_zig, tarifa, valuta, casovni_blok)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+        VALUES ($1, $2, $3, $4, $5, NOW(),$6, $7, $8)`;
         const vrednosti = [
             this.stanje,
             this.napetost,
             this.frekvenca,
             this.tok,
             this.moc,
-            this.casovni_zig,
             this.tarifa,
             this.valuta,
             this.casovni_blok
