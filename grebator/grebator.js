@@ -19,7 +19,9 @@ class zdruzeni_podatki {
         this.frekvenca = vticnica_json['switch:0'].freq;
         this.tok = vticnica_json['switch:0'].current;
         this.moc = vticnica_json['switch:0'].apower;
-        this.casovni_zig = new Date().toISOString();
+        const zdaj = new Date();
+        zdaj.setHours(zdaj.getHours() + 1);
+        this.casovni_zig = zdaj.toISOString();
         this.tarifa = tarifa_json.tarifa;
         this.valuta = tarifa_json.valuta;
         this.casovni_blok = tarifa_json.casovni_blok;
