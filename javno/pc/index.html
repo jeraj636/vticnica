@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="izgled.css">
+</head>
+
+<body>
+    <h1>
+        Vtičnica
+    </h1>
+    <p id="podatki">
+
+    </p>
+    <script>
+        fetch('http://localhost/izrocevalec/api/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Napaka: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('podatki').innerHTML = data[0].napetost;
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Prišlo je do napake:', error);
+            });
+
+    </script>
+</body>
+
+</html>
