@@ -65,7 +65,7 @@ async function izbrisi_stare_podatke(odjemalec) {
     const danes = new Date().toISOString().split('T')[0];
     const poizvedba = `
     DELETE FROM stanje_vticnice
-    WHERE casovni_zig < NOW() - INTERVAL '24 hours'`;
+    WHERE casovni_zig < NOW() - INTERVAL '48 hours'`;
     try {
         await odjemalec.query(poizvedba);
         console.log(`Brisanje zapisov!`);
