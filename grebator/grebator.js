@@ -104,7 +104,6 @@ const branje_podatkov = setInterval(async () => {
         await podatki.vpisi_v_pb(pg_odjemalec);
     } catch (error) {
         console.error('Napaka:', error);
-        process.exit();
     }
 
 }, 500);
@@ -114,7 +113,6 @@ const brisanje_podatkov = setInterval(async () => {
 
     } catch (error) {
         console.error('Napaka:', error);
-        process.exit();
     }
 
 }, 60 * 1000);
