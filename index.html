@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vtičnica</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Vtičnica</h1>
+    <p>Zažetna stran sistema za beleženje podatkov pridobljenih iz vtičnice <a
+            href="https://www.shelly.si/en/sensors-and-smart-plugs/109-shelly-plug-s-gen3.html">Shelly Plug S Gen3</a>
+    </p>
+    <h2>Programi</h2>
+    <p>
+        Sistem je setavljen iz več programov:
+    </p>
+    <h3>Grebator</h3>
+    <p>Grebator je program napisan v node js. Skrbi za pridobivanje podatkov iz Shelly Plug S Gen3 in API-ja s tarifo:
+        <a href="https://api-drzavno-test.scv.si/">https://api-drzavno-test.scv.si/</a>. Pridobljene podatke beleži v
+        podatkovno bazo.
+    </p>
+    <h3>Podatkovna baza</h3>
+    Podatkovna baza <b>vticnica</b> ima le eno tabelo s strukturo:
+    <table>
+        <tr>
+            <th>id_zapisa</th>
+            <th>stanje</th>
+            <th>napetost</th>
+            <th>frekvenca</th>
+            <th>tok</th>
+            <th>moc</th>
+            <th>casovni_zig</th>
+            <th>tarifa</th>
+            <th>valuta</th>
+            <th>casovni_blok</th>
+        </tr>
+    </table>
+    <h3>Izročevalec</h3>
+    <p><a href="/izrocevalec/">Izročevalec</a> je php api, ki bere iz podatkovne baze.</p>
+    <h3>Uporabniška app</h3>
+    <p><a href="javno/pc/index.html">Aplikacija</a> pridobiva podatke iz izročevalca in jih prikazuja na uporabniku
+        prijazen način
+        .</p>
+</body>
+
+</html>
