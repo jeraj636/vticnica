@@ -1,6 +1,12 @@
+let st_minut = 5;
+let povezava = 'https://kokosek.si/vticnica/izrocevalec/api/?t=';
+document.getElementById("zeljen_cas_slider").addEventListener("input", function () {
+    st_minut = this.value;
+});
+
+
 function dobi_podatke() {
-    let st_minut = 5;
-    fetch('http://localhost/vticnica/izrocevalec/api/?t=' + st_minut * 60)
+    fetch(povezava + st_minut * 60)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Napaka: ${response.status}`);
