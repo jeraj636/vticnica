@@ -10,15 +10,15 @@ $povezava_s_PB = pg_connect('host=' . $nastavitve['streznik'] . '  dbname=' . $n
 
 if (isset($_GET['id'])) {
     $poizvedba = 'SELECT * FROM stanje_vticnice WHERE id_zapisa >= $1;';
-    $rezultat  = pg_query_params($povezava_s_PB, $poizvedba, [$_GET['id']]);
+    $rezultat = pg_query_params($povezava_s_PB, $poizvedba, [$_GET['id']]);
 } else if (isset($_GET['t'])) {
     $sekunde = $_GET['t'];
-    $poizvedba = 'SELECT * FROM stanje_vticnice WHERE casovni_zig >= NOW() - INTERVAL \'' . $sekunde . ' seconds\'';
-    $rezultat  = pg_query($povezava_s_PB, $poizvedba);
+    $poizvedba = 'SELECT * FROM stanje_vticnice WHERE casovni_zig >= NOW() - INTERVAL \'' . $sekunde . ' seconds\' ORDER BY casovni_zig ASC';
+    $rezultat = pg_query($povezava_s_PB, $poizvedba);
 } else {
 
     $poizvedba = 'SELECT * FROM stanje_vticnice;';
-    $rezultat  = pg_query($povezava_s_PB, $poizvedba);
+    $rezultat = pg_query($povezava_s_PB, $poizvedba);
 }
 
 $vse = [];
