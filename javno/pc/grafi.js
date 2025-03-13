@@ -1,12 +1,20 @@
 const platno_za_graf_moci = document.getElementById('moc').getContext('2d');
-
+function jeAndroid() {
+    return /Android/i.test(navigator.userAgent);
+}
 let odzadje = 'rgba(75, 192, 192, 0.2)';
 let x_crte = 'rgba(200, 200, 200, 0.1)';
 let y_crte = 'rgba(200, 200, 200, 0.8)';
 let graf1_barva = 'rgb(192, 249, 255)';
 let graf2_barva = 'rgb(255, 255, 192)';
 let graf3_barva = 'rgb(255, 218, 192)';
+let debelina = 2;
+let tocka = 1;
 
+if (jeAndroid()) {
+    debelina = 1;
+    tocka = 0.5;
+}
 let vel_pisave = 16;
 let font = 'Poppins';
 let barva_pisave = 'whitesmoke';
@@ -19,7 +27,8 @@ const graf_moci = new Chart(platno_za_graf_moci, {
             data: [],
             borderColor: graf1_barva,
             backgroundColor: odzadje,
-            pointRadius: 0,
+            borderWidth: debelina,
+            pointRadius: tocka,
             fill: false,
         }]
     },
@@ -61,7 +70,8 @@ const graf_toka = new Chart(platno_za_graf_toka, {
             data: [],
             borderColor: graf2_barva,
             backgroundColor: 'odzadje',
-            pointRadius: 0,
+            borderWidth: debelina,
+            pointRadius: tocka,
             fill: false,
         }]
     },
@@ -101,7 +111,8 @@ const graf_napetosti = new Chart(platno_za_graf_napetosti, {
             data: [],
             borderColor: graf3_barva,
             backgroundColor: 'odzadje',
-            pointRadius: 0,
+            borderWidth: debelina,
+            pointRadius: tocka,
             fill: false,
         }]
     },
