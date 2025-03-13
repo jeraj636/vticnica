@@ -3,6 +3,11 @@ let povezava = 'https://kokosek.si/vticnica/izrocevalec/api/?t=';
 document.getElementById("zeljen_cas_slider").addEventListener("input", function () {
     st_minut = this.value;
 });
+window.onload = function () {
+    document.getElementById("zeljen_cas_slider").addEventListener("input", function () {
+        let st_minut = this.value;
+    });
+};
 
 
 function dobi_podatke() {
