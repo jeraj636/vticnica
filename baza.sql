@@ -29,3 +29,13 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO v
 CREATE USER vticnica_up_bralec WITH PASSWORD 'vticnica-1234';
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO vticnica_up_bralec;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO vticnica_up_bralec;
+
+SELECT * FROM (
+SELECT 
+    DATE_TRUNC('hour', casovni_zig) AS ura,
+    SUM(moc * 0.5 / 3600000) AS kwh,
+    AVG(tarifa) AS tarifa
+FROM stanje_vticnice
+GROUP BY ura
+ORDER BY ura DESC
+LIMIT 24) AS zadnjih24ur ORDER  BY ura ASC;
