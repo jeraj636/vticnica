@@ -69,7 +69,7 @@ const graf_toka = new Chart(platno_za_graf_toka, {
             label: 'Tok [I]',
             data: [],
             borderColor: graf2_barva,
-            backgroundColor: 'odzadje',
+            backgroundColor: odzadje,
             borderWidth: debelina,
             pointRadius: tocka,
             fill: false,
@@ -110,7 +110,93 @@ const graf_napetosti = new Chart(platno_za_graf_napetosti, {
             label: 'Napetost',
             data: [],
             borderColor: graf3_barva,
-            backgroundColor: 'odzadje',
+            backgroundColor: odzadje,
+            borderWidth: debelina,
+            pointRadius: tocka,
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: false,
+        animation: false,
+        plugins: {
+            legend: {
+                labels: {
+                    font: {
+                        size: vel_pisave,
+                        family: font
+                    },
+                    color: barva_pisave
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: true, color: x_crte
+                }
+            },
+            y: {
+                beginAtZero: true,
+                grid: { display: true, color: y_crte }
+            }
+        }
+    }
+});
+
+
+
+const platno_za_graf_cen = document.getElementById('cena').getContext('2d');
+const graf_cen = new Chart(platno_za_graf_cen, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'cena',
+            data: [],
+            borderColor: graf2_barva,
+            backgroundColor: odzadje,
+            borderWidth: debelina,
+            pointRadius: tocka,
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: false,
+        animation: false,
+        plugins: {
+            legend: {
+                labels: {
+                    font: {
+                        size: vel_pisave,
+                        family: font
+                    },
+                    color: barva_pisave
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: true, color: x_crte }
+            },
+            y: {
+                beginAtZero: true,
+                grid: { display: true, color: y_crte }
+            }
+        }
+    }
+});
+
+const platno_za_graf_kwh = document.getElementById('kwh').getContext('2d');
+const graf_kwh = new Chart(platno_za_graf_kwh, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'KWh',
+            data: [],
+            borderColor: graf3_barva,
+            backgroundColor: odzadje,
             borderWidth: debelina,
             pointRadius: tocka,
             fill: false,
